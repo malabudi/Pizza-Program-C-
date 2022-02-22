@@ -1,6 +1,5 @@
 #include <iostream>
 #include <limits>
-
 #include "orders.h"
 
 // Function prototypes
@@ -12,24 +11,22 @@ void askPizzaSize(std::string& pizzaSize);
 bool isNotValidPizzaSize(std::string pizzaSize);
 void askNumToppings(int& numToppings);
 bool isNotValidToppings(int numToppings);
-void enterValidOrderChoice(char& choice);
+void askIfOrderAgain(std::string& choice);
+void lowerCaseStr(std::string& userStr);
 
 int main()
 {
     std::string name, phoneNum;
-    char orderAgain = 'Y';
+    std::string orderAgain = "yes";
 
     std::cout << "Welcome to the Pizza Program!" << std::endl;
     askCustomerInfo(name, phoneNum);
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     Order userOrder(name, phoneNum);
-    while (orderAgain == 'Y')
+    while (orderAgain == "yes")
     {
         orderOnePizza(userOrder);
-        enterValidOrderChoice(orderAgain);
-
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        askIfOrderAgain(orderAgain);
     }
 
     std::cout << userOrder.showOrder();
@@ -41,10 +38,10 @@ int main()
 void askCustomerInfo(std::string& name, std::string& phoneNum)
 {
     std::cout << "Please enter your name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
 
     std::cout << "Please enter your phone number: ";
-    std::cin >> phoneNum;
+    std::getline(std::cin, phoneNum);
 }
 
 void orderOnePizza(Order& userOrder)
@@ -79,7 +76,6 @@ void orderOnePizza(Order& userOrder)
         askNumToppings(numToppinngs);
     }
 
-    // Add their pizza to the vector of the user's order object
     userOrder.addPizza(pizzaType, pizzaSize, numToppinngs);
 }
 
@@ -91,6 +87,7 @@ void askPizzaType(std::string& pizzaType)
     std::cout << "- hand tossed" << std::endl;
     std::cout << "- pan" << std::endl;
     std::getline(std::cin, pizzaType);
+    lowerCaseStr(pizzaType);
 }
 
 bool isNotValidPizzaType(std::string pizzaType)
@@ -113,6 +110,7 @@ void askPizzaSize(std::string& pizzaSize)
     std::cout << "- medium" << std::endl;
     std::cout << "- large" << std::endl;
     std::getline(std::cin, pizzaSize);
+    lowerCaseStr(pizzaSize);
 }
 
 bool isNotValidPizzaSize(std::string pizzaSize)
@@ -143,22 +141,33 @@ bool isNotValidToppings(int numToppings)
     return true;
 }
 
-void enterValidOrderChoice(char& choice)
+void askIfOrderAgain(std::string& choice)
 {
-    std::cout << "Would you like to order another pizza? (Y/N): " << std::endl;
-    std::cin >> choice;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "Would you like to order another pizza? (yes/no): " << std::endl;
+    std::getline(std::cin, choice);
 
-    if (choice >= 97 && choice <= 122)
-        choice -= 32;
+    lowerCaseStr(choice);
 
-    while (choice != 'Y' && choice != 'N')
+
+    while (choice.compare("yes") != 0 && choice.compare("no") != 0)
     {
-        std::cerr << "Invalid input, please either enter Y or N" << std::endl;
+        std::cerr << "Invalid input, please either enter \"yes\" or \"no\"" << std::endl;
 
-        std::cout << "Would you like to order another pizza? (Y/N): " << std::endl;
-        std::cin >> choice;
+        std::cout << "Would you like to order another pizza? (yes/no): " << std::endl;
+        std::getline(std::cin, choice);
 
-        if (choice >= 97 && choice <= 122)
-        choice -= 32;
+        lowerCaseStr(choice);
+
+    }
+}
+
+void lowerCaseStr(std::string& userStr)
+{
+    // Set string to lower case w/ a range based loop
+    for (char& userChar : userStr)
+    {
+        if (userChar >= 65 && userChar <= 90)
+            userChar += 32;
     }
 }

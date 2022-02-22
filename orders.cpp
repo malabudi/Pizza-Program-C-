@@ -40,7 +40,7 @@ std::string Order::showOrder()
     double total = 0.00d;
     double price;
 
-    receipt += "\nYour Order\n";
+    receipt += "\nYour Order:\n";
     receipt += "----------------------------------------------------------\n";
     receipt += "Name: " + getName() + "\n";
     receipt += "Phone Number: " + getPhoneNum() + "\n";
@@ -59,7 +59,7 @@ std::string Order::showOrder()
     }
 
     priceStream << std::fixed << std::setprecision(2) << total;
-    receipt += "Total: $" + priceStream.str();
+    receipt += "Total: $" + priceStream.str() + "\n";
 
     return receipt;
 }

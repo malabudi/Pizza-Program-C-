@@ -22,7 +22,7 @@ void Pizza::setNumToppings(int numToppings)         { this->numToppings = numTop
 // show description of the pizza
 std::string Pizza::showPizzaDesc()
 {
-    return "Pizza Type: " + getPizzaType() + ", Pizza Size: " + getPizzaSize() + ", Number of Toppings: " + std::to_string(getNumToppings());
+    return "Pizza Type: " + getPizzaType() + "\nPizza Size: " + getPizzaSize() + "\nNumber of Toppings: " + std::to_string(getNumToppings());
 }
 
 double Pizza::calcPrice()
